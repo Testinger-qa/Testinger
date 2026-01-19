@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Testinger – Test Management for Modern QA Teams</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  >
+
+  <!-- AOS -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary:#4f46e5;
+      --dark:#0f172a;
+      --muted:#64748b;
+      --bg:#f8fafc;
+    }
+
+    * { box-sizing: border-box; font-family: Inter, sans-serif; }
+    body { margin:0; color:var(--dark); background:#fff; }
+    a { text-decoration:none; color:inherit; }
+
+    section { padding:90px 20px; }
+    .container { max-width:1200px; margin:auto; }
+
+    h1 { font-size:48px; }
+    h2 { font-size:34px; }
+    h3 { font-size:20px; }
+    p { color:var(--muted); line-height:1.6; }
+
+    /* HEADER */
+    header {
+      position:fixed;
+      top:0; width:100%;
+      background:#fff;
+      border-bottom:1px solid #eee;
+      z-index:1000;
+    }
+    header .container {
+      display:flex; align-items:center; justify-content:space-between;
+      padding:18px 20px;
+    }
+    .logo { font-weight:700; font-size:20px; color:var(--primary); }
+    nav a { margin-left:20px; font-weight:500; }
+
+    .btn {
+      background:var(--primary);
+      color:#fff;
+      padding:12px 22px;
+      border-radius:10px;
+      font-weight:600;
+      display:inline-block;
+    }
+
+    /* HERO */
+    .hero { padding-top:140px; background:linear-gradient(135deg,#eef2ff,#fff); }
+    .hero-grid {
+      display:grid;
+      grid-template-columns:1.2fr 1fr;
+      gap:50px;
+      align-items:center;
+    }
+    .hero img {
+      width:100%;
+      border-radius:16px;
+      box-shadow:0 30px 70px rgba(0,0,0,.12);
+    }
+
+    /* LOGO BAR */
+    .logos {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+      gap:30px;
+      align-items:center;
+      opacity:.7;
+    }
+    .logos img { max-height:36px; margin:auto; }
+
+    /* FEATURES GRID */
+    .features { background:var(--bg); }
+    .feature-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:30px;
+      margin-top:60px;
+    }
+    .feature-card {
+      background:#fff;
+      padding:30px;
+      border-radius:16px;
+      box-shadow:0 10px 30px rgba(0,0,0,.05);
+    }
+    .feature-card svg { width:36px; height:36px; margin-bottom:14px; }
+
+    /* SPLIT */
+    .split {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:60px;
+      align-items:center;
+    }
+    .split img {
+      width:100%;
+      border-radius:16px;
+      box-shadow:0 20px 50px rgba(0,0,0,.1);
+    }
+
+    /* FAQ */
+    .faq-item {
+      border-bottom:1px solid #e5e7eb;
+      padding:20px 0;
+      cursor:pointer;
+    }
+    .faq-item h4 { margin:0; }
+    .faq-item p { display:none; margin-top:10px; }
+
+    /* FOOTER */
+    footer {
+      background:#0f172a;
+      color:#cbd5f5;
+      padding:50px 20px;
+    }
+
+    /* MODAL */
+    .modal {
+      display:none;
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.5);
+      align-items:center;
+      justify-content:center;
+      z-index:2000;
+    }
+    .modal-content {
+      background:#fff;
+      padding:30px;
+      width:90%;
+      max-width:420px;
+      border-radius:16px;
+      position: relative;
+    }
+    .modal input, .modal textarea {
+      width:100%;
+      margin-bottom:12px;
+      padding:12px;
+      border-radius:8px;
+      border:1px solid #ddd;
+    }
+
+    /* STICKY CTA */
+    .sticky {
+      position:fixed;
+      bottom:20px; right:20px;
+      background:var(--primary);
+      color:#fff;
+      padding:14px 22px;
+      border-radius:999px;
+      font-weight:600;
+      box-shadow:0 10px 30px rgba(0,0,0,.2);
+    }
+
+    @media(max-width:900px){
+      .hero-grid,.split{ grid-template-columns:1fr; }
+      h1{ font-size:36px; }
+    }
+    /* SIGNUP FORM FIX */
+.signup-form {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.signup-form input,
+.signup-form textarea {
+  width: 100%;
+  height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.signup-form textarea {
+  height: 44px;
+  resize: none;
+}
+
+.signup-form button {
+  height: 44px;
+  white-space: nowrap;
+}
+
+/* Desktop layout */
+.signup-form .name { grid-column: span 1; }
+.signup-form .email { grid-column: span 1; }
+.signup-form .org { grid-column: span 1; }
+.signup-form .questions { grid-column: span 2; }
+.signup-form .phone { grid-column: span 1; }
+.signup-form .submit {
+  grid-column: 1 / -1;
+  justify-self: center;
+  margin-top: 10px;
+}
+.signup-form button {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.signup-form button:hover {
+  opacity: 0.9;
+}
+
+
+/* Mobile */
+@media (max-width: 768px) {
+  .signup-form {
+    grid-template-columns: 1fr;
+  }
+}
+/* MODAL CLOSE BUTTON */
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #64748b;
+}
+
+.modal-close:hover {
+  color: #0f172a;
+}
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0f172a;
+  color: #fff;
+  padding: 14px 22px;
+  border-radius: 999px;
+  font-weight: 500;
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease, transform .3s ease;
+  z-index: 3000;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-10px);
+}
+
+
+
+  </style>
+</head>
+<div id="toast" class="toast">Thanks! We’ll get back to you shortly.</div>
+<body>
+
+<header>
+  <div class="container">
+    <div class="logo" style="cursor: pointer;"><i class="fa-duotone fa-solid fa-microscope fa-xl" style="--fa-primary-color: #4f46e5; --fa-secondary-color: #242428;"></i> Testinger</div>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#faq">FAQ</a>
+      <a href="#" onclick="openModal()">Contact</a>
+      <!-- <a href="#signup" class="btn">Get Early Access</a> -->
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container hero-grid">
+    <div data-aos="fade-right">
+      <h1>All-in-One Test Management for QA Teams</h1>
+      <p>Plan, execute, track and analyze QA testing with clarity — no spreadsheets, no chaos.</p>
+      <a href="#signup" class="btn">Join Early Access</a>
+    </div>
+    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71" data-aos="fade-left">
+  </div>
+</section>
+
+<!-- LOGOS -->
+<section>
+  <div class="container">
+    <p style="text-align:center">Inspired by teams from leading Tech companies</p>
+    <br><br>
+    <div class="logos">
+      <i class="fa-brands fa-google fa-2xl"></i>
+      <i class="fa-brands fa-salesforce  fa-2xl"></i>
+      <i class="fa-brands fa-reddit  fa-2xl"></i>
+      <i class="fa-brands fa-stripe  fa-2xl"></i>
+      <i class="fa-brands fa-pinterest  fa-2xl"></i>
+      <i class="fa-brands fa-airbnb  fa-2xl"></i>
+      <i class="fa-brands fa-amazon  fa-2xl"></i>
+      <i class="fa-brands fa-xbox  fa-2xl"></i>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" class="features">
+  <div class="container">
+    <h2 data-aos="fade-up">Why to Choose Testinger</h2>
+
+    <div class="feature-grid">
+      <div class="feature-card" data-aos="fade-up">
+        <svg fill="#4f46e5" viewBox="0 0 24 24"><path d="M4 4h16v4H4zM4 10h16v10H4z"/></svg>
+        <h3>Test Case Management</h3>
+        <p>Create, organize, version and reuse test cases easily.</p>
+      </div>
+
+      <div class="feature-card" data-aos="fade-up">
+        <svg fill="#22c55e" viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3z"/></svg>
+        <h3>Flexible Hierarchy</h3>
+        <p>Project → Module/Test Suite → Test Case structure.</p>
+      </div>
+
+      <div class="feature-card" data-aos="fade-up">
+        <svg fill="#f59e0b" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        <h3>Test Runs</h3>
+        <p>Single or bulk executions with status tracking.</p>
+      </div>
+
+      <div class="feature-card" data-aos="fade-up">
+        <svg fill="#ef4444" viewBox="0 0 24 24"><path d="M3 13h4v8H3zM10 3h4v18h-4zM17 8h4v13h-4z"/></svg>
+        <h3>Dashboards & Metrics</h3>
+        <p>Quality trends, risk insights, and coverage metrics.</p>
+      </div>
+
+      <div class="feature-card" data-aos="fade-up">
+        <svg xmlns="http://www.w3.org/2000/svg" height="32" width="32" viewBox="0 0 640 640"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path fill="#685203" d="M192 64C156.7 64 128 92.7 128 128L128 368L310.1 368L279.1 337C269.7 327.6 269.7 312.4 279.1 303.1C288.5 293.8 303.7 293.7 313 303.1L385 375.1C394.4 384.5 394.4 399.7 385 409L313 481C303.6 490.4 288.4 490.4 279.1 481C269.8 471.6 269.7 456.4 279.1 447.1L310.1 416.1L128 416.1L128 512.1C128 547.4 156.7 576.1 192 576.1L448 576.1C483.3 576.1 512 547.4 512 512.1L512 234.6C512 217.6 505.3 201.3 493.3 189.3L386.7 82.7C374.7 70.7 358.5 64 341.5 64L192 64zM453.5 240L360 240C346.7 240 336 229.3 336 216L336 122.5L453.5 240z"/></svg>
+        <h3>Import and Export</h3>
+        <p>Import and export required data for custom usage.</p>
+      </div>
+
+      <div class="feature-card" data-aos="fade-up">
+        <img width="40" alt="chatbot" src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Chatbot_img.png?20230131041334"></a>
+        <h3>AI Assist</h3>
+        <p>Generate test cases, find gaps, and speed up QA.</p>
+      </div>
+
+      <div class="feature-card" data-aos="fade-up">
+        <img width="40" alt="Users icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Users_icon.svg/32px-Users_icon.svg.png?20200528202317"></a>
+        <h3>Custom Roles & RBAC</h3>
+        <p>Custom roles, with the control of RBAC System.</p>
+      </div>
+
+      <div class="feature-card" data-aos="fade-up">
+        <img width="32" alt="Microsoft Teams" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Microsoft_Office_Teams_%282019%E2%80%932025%29.svg/32px-Microsoft_Office_Teams_%282019%E2%80%932025%29.svg.png?20210603103011"></a>
+        <h3>Integrations</h3>
+        <p>Microsoft Teams and Email Integrations supported.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ELABORATE SECTION -->
+<section>
+  <div class="container split">
+    <div data-aos="fade-right">
+      <h2>Smarter Test Execution</h2>
+      <p>
+  <b>Testinger</b> is a unified test execution platform for modern QA teams.
+  Plan runs, assign testers, and analyze results in one place.
+  <b>Built for startups, growing businesses, and enterprises</b>, it improves visibility,
+  reduces release risk, and helps teams ship with confidence.
+</p>
+
+
+    </div>
+    <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984" data-aos="fade-left">
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="features">
+  <div class="container">
+    <h2 data-aos="fade-up">Frequently Asked Questions</h2>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <h4>Is Testinger suitable for startups?</h4>
+      <p>Yes, Testinger is designed for startups to enterprises with no project limits.</p>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <h4>Does it provide custom Test case management?</h4>
+      <p>Yes, custom Test case management is supported.</p>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <h4>Is there an AI assistant?</h4>
+      <p>Yes, Testinger includes an AI-powered QA assistant.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNUP -->
+<section id="signup">
+  <div class="container" style="text-align:center">
+    <h2>Get Early Access</h2>
+    <p>Join us to shape Testinger and improve QA workflows.</p>
+
+    <form
+  class="signup-form"
+  action="https://docs.google.com/forms/d/e/1FAIpQLSddYenonymFHK8VBqqVKNTK9_y1h7FyE2ZZwhjyMaJ1YcYa-w/formResponse"
+  method="POST"
+  target="hidden_iframe"
+  onsubmit="showToast('Early access request submitted!');"
+>
+
+  <input class="name" name="entry.2005620554" placeholder="Name" required>
+  <input class="email" name="entry.1045781291" type="email" placeholder="Email" required>
+  <input class="org" name="entry.1065046570" placeholder="Organization / Company" required>
+
+  <textarea
+    class="questions"
+    name="entry.839337160"
+    placeholder="Additional questions (optional)"
+  ></textarea>
+
+  <input class="phone" name="entry.1166974658" placeholder="Phone (optional)">
+
+  <button class="btn submit" type="submit">
+    Submit
+  </button>
+</form>
+<iframe name="hidden_iframe" style="display:none;"></iframe>
+
+  </div>
+</section>
+
+
+<footer>
+  <div class="container">
+    <p>© 2026 Testinger. Built for QA teams.</p>
+  </div>
+</footer>
+
+<!-- CONTACT MODAL -->
+<!-- <div class="modal" id="contactModal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+
+    <h3>Contact Testinger</h3>
+
+    <form
+  action="mailto:test@gmail.com"
+  method="POST"
+  enctype="text/plain"
+  onsubmit="showToast('Message sent successfully!'); closeModal();"
+>
+
+      <input name="name" placeholder="Your Name" required>
+      <input name="email" type="email" placeholder="Your Email" required>
+      <textarea name="message" placeholder="Your Message" required></textarea>
+
+      <button class="btn" type="submit">Send Email</button>
+    </form>
+  </div>
+</div> -->
+<div class="modal" id="contactModal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+
+    <h3>Contact Testinger</h3>
+
+    <input id="name" placeholder="Your Name" required>
+    <input id="email" type="email" placeholder="Your Email" required>
+    <textarea id="message" placeholder="Your Message" required></textarea>
+
+    <button class="btn" onclick="sendMail()">Send Email</button>
+  </div>
+</div>
+
+
+
+
+<a class="sticky" href="#signup">Join Early Access</a>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init({ once:true, duration:900 });
+
+  function openModal(){ document.getElementById('contactModal').style.display='flex'; }
+  function closeModal(){ document.getElementById('contactModal').style.display='none'; }
+  function toggleFaq(el){
+    const p = el.querySelector('p');
+    p.style.display = p.style.display === 'block' ? 'none' : 'block';
+  }
+</script>
+<script>
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000);
+}
+</script>
+<script>
+function sendMail() {
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const message = document.getElementById("message").value.trim();
+
+  if (!name || !email || !message) {
+    alert("Please fill in all fields.");
+    return;
+  }
+
+  const subject = encodeURIComponent("Contact Testinger");
+  const body = encodeURIComponent(
+    `Name: ${name}\n` +
+    `Email: ${email}\n\n` +
+    `Message:\n${message}`
+  );
+
+  const mailtoLink = `mailto:bhuvaneshn13@mail.com?subject=${subject}&body=${body}`;
+
+  window.location.href = mailtoLink;
+
+  showToast("Mail client opened successfully!");
+  closeModal();
+}
+</script>
+
+
+
+</body>
+</html>
