@@ -74,14 +74,27 @@
     }
 
     /* LOGO BAR */
-    .logos {
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
-      gap:30px;
-      align-items:center;
-      opacity:.7;
-    }
-    .logos img { max-height:36px; margin:auto; }
+/* LOGO GRID – FIXED */
+.logos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  gap: 32px;
+  margin-top: 40px;
+}
+
+.logo-item {
+  height: 56px;              /* 🔑 forces row height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-item i {
+  font-size: 32px;
+  line-height: 1;            /* 🔑 prevents collapsing */
+  color: #6b7280;
+}
+
 
     /* FEATURES GRID */
     .features { background:var(--bg); }
@@ -264,6 +277,21 @@
   transform: translateX(-50%) translateY(-10px);
 }
 
+@media (max-width: 480px) {
+  .logos {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px 20px; /* row-gap column-gap */
+  }
+
+  .logo-item {
+    height: 48px;
+  }
+
+  .logo-item i {
+    font-size: 28px;
+  }
+}
+
 
 
   </style>
@@ -301,15 +329,16 @@
     <p style="text-align:center">Inspired by teams from leading Tech companies</p>
     <br><br>
     <div class="logos">
-      <i class="fa-brands fa-google fa-2xl"></i>
-      <i class="fa-brands fa-salesforce  fa-2xl"></i>
-      <i class="fa-brands fa-reddit  fa-2xl"></i>
-      <i class="fa-brands fa-stripe  fa-2xl"></i>
-      <i class="fa-brands fa-pinterest  fa-2xl"></i>
-      <i class="fa-brands fa-airbnb  fa-2xl"></i>
-      <i class="fa-brands fa-amazon  fa-2xl"></i>
-      <i class="fa-brands fa-xbox  fa-2xl"></i>
-    </div>
+  <div class="logo-item"><i class="fa-brands fa-google"></i></div>
+  <div class="logo-item"><i class="fa-brands fa-salesforce"></i></div>
+  <div class="logo-item"><i class="fa-brands fa-reddit"></i></div>
+  <div class="logo-item"><i class="fa-brands fa-stripe"></i></div>
+  <div class="logo-item"><i class="fa-brands fa-pinterest"></i></div>
+  <div class="logo-item"><i class="fa-brands fa-airbnb"></i></div>
+  <div class="logo-item"><i class="fa-brands fa-amazon"></i></div>
+  <div class="logo-item"><i class="fa-brands fa-xbox"></i></div>
+</div>
+
   </div>
 </section>
 
